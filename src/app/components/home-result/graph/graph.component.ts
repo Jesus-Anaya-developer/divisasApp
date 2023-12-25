@@ -20,10 +20,12 @@ export class GraphComponent {
     const data = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [{
-        label: 'My First Dataset',
+        label: 'Precio',
         data: [65, 59, 80, 81, 56, 55, 40],
         fill: false,
-        borderColor: '#68da3e',
+        borderColor: '',
+        backgroundColor: '#223026',
+        color: '',
         tension: 0.1
       }]
     };
