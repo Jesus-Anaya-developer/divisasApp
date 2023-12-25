@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { HeaderComponent } from "../header/header.component";
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 import { FooterComponent } from "../footer/footer.component";
+import { HomeResultComponent } from "../home-result/home-result.component";
 
 
 @Component({
@@ -12,7 +13,8 @@ import { FooterComponent } from "../footer/footer.component";
     HeaderComponent,
     ReactiveFormsModule,
     CommonModule,
-    FooterComponent
+    FooterComponent,
+    HomeResultComponent
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
