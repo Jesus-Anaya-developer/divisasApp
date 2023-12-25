@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { HeaderComponent } from "../header/header.component";
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
-
+import { FooterComponent } from "../footer/footer.component";
 
 
 @Component({
@@ -11,7 +11,8 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule } from "@angula
   imports: [
     HeaderComponent,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    FooterComponent
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
