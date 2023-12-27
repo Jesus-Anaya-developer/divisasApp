@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { HeaderComponent } from "../header/header.component";
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 import { FooterComponent } from "../footer/footer.component";
 import { HomeResultComponent } from "../home-result/home-result.component";
 
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
 
 @Component({
   selector: 'app-search',
@@ -20,6 +20,18 @@ import { HomeResultComponent } from "../home-result/home-result.component";
   styleUrl: './search.component.css'
 })
 export class SearchComponent {
+
+  constructor() { }
+
+  //Variables para alertas
+  ErrorMessage: string = "";
+  AlertError: boolean = false;
+
+  //variable para resultado de la divisa
+  divisaMonto: any = [];
+  divisaOrigen: any = [];
+  divisaDestino: any = [];
+  homeResult: boolean = false;
 
   monedaAbreviatura = {
     "AED": " United Arab Emirates Dirham",
@@ -201,14 +213,14 @@ export class SearchComponent {
       nonNullable: true,
       validators: [
         Validators.required,
-        Validators.pattern('A-Za-z')
+        Validators.pattern('A-Za-z ,')
       ]
     }),
     monedaDestino: new FormControl('', {
       nonNullable: true,
       validators: [
         Validators.required,
-        Validators.pattern('A-Za-z')
+        Validators.pattern('A-Za-z ,')
       ]
     }),
     monto: new FormControl('', {
@@ -219,5 +231,26 @@ export class SearchComponent {
       ]
     }),
   })
+
+  calcularDivisas(formDivisas: FormGroup) {
+
+    if (formDivisas.value.monto == '') {
+      this.ErrorMessage = 'Error!!! Por favor ingrese un monto';
+      this.AlertError = true;
+    } else if (formDivisas.value.monedaOrigen == '') {
+      this.ErrorMessage = 'Error!!! Por favor seleccione una moneda de origen';
+      this.AlertError = true;
+    } else if (formDivisas.value.monedaDestino == '') {
+      this.ErrorMessage = 'Error!!! Por favor seleccione una moneda de destino';
+      this.AlertError = true;
+    } else {
+
+      this.divisaMonto = formDivisas.value.monto;
+      this.divisaOrigen = formDivisas.value.monedaOrigen;
+      this.divisaDestino = formDivisas.value.monedaDestino;
+      this.homeResult = true;
+    }
+
+  }
 
 }

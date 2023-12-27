@@ -1,15 +1,16 @@
 <app-header></app-header>
 <div class="bg-primary w-screen">
   <div>
-    <form [formGroup]="formDivisas" class="flex flex-col items-center p-5 text-tertiary sm:flex-row">
+    <form [formGroup]="formDivisas" (ngSubmit)="calcularDivisas(formDivisas)"
+      class="flex flex-col items-center p-5 text-tertiary sm:flex-row">
       <div class="flex flex-col place-items-center md:basis-2/6 md:p-4">
         <label for="monto" class="text-3xl font-semibold pt-5 pb-2">Importe</label>
-        <input type="number" formControlName="monto" name="monto" placeholder="$5.00"
+        <input type="text" formControlName="monto" name="monto" placeholder="$5.00"
           class="text-xl text-tertiary text-center rounded-md border-b-4 border-tertiary">
       </div>
       <div class="flex flex-col place-items-center md:basis-2/6 md:p-4">
         <label for="monedaOrigen" class="text-3xl font-semibold pt-5 pb-2">De:</label>
-        <select name="monedaOrigen" id="monedaOrigen"
+        <select name="monedaOrigen" id="monedaOrigen" formControlName="monedaOrigen"
           class="text-base text-tertiary text-center rounded-full border-b-4 border-tertiary">
           <option value=""></option>
           <option *ngFor="let moneda of monedas">{{moneda}}</option>
@@ -17,16 +18,24 @@
       </div>
       <div class="flex flex-col place-items-center md:basis-2/6 md:p-4">
         <label for="monedaDestino" class="text-3xl font-semibold pt-5 pb-2">A:</label>
-        <select name="monedaOrigen" id="monedaOrigen"
+        <select name="monedaDestino" id="monedaDestino" formControlName="monedaDestino"
           class="text-base text-tertiary text-center rounded-full border-b-4 border-tertiary">
           <option value=""></option>
           <option *ngFor="let moneda of monedas">{{moneda}}</option>
         </select>
       </div>
+      <div class="flex flex-col place-items-center pt-5 md:basis-2/6 md:p-4">
+        <button type="submit"
+          class="text-tertiary bg-blue hover:bg-green focus:ring-4 focus:ring-blue
+      font-medium rounded-lg text-xl px-5 py-3 me-2 mb-2 focus:outline-none border-b-4 border-tertiary">Aceptar</button>
+      </div>
     </form>
   </div>
 </div>
 
-<app-home-result></app-home-result>
+@if (homeResult == true) {
+<app-home-result [divisaMonto]="divisaMonto" [divisaOrigen]="divisaOrigen" [divisaDestino]="divisaDestino"
+  [ErrorMessage]="ErrorMessage"></app-home-result>
+}
 
 <app-footer></app-footer>

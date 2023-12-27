@@ -1,10 +1,12 @@
 <div class="bg-primary p-4">
   <div class="w-full flex flex-col flex-initial pl-4 sm:pl-8 text-tertiary">
-    <p class="text-2xl text-semibold pt-2 pl-2">$5.00 AED: United Arab Emirates Dirham =</p>
-    <p class="text-4xl text-bold pt-2 pl-1">$5.00 ANG: Netherlands Antillean Guilder</p>
-    <p class="text-xl text-semibold pt-2 pl-2">$1.00 AED = $1.00 ANG</p>
-    <P class="text-xl text-semibold pt-2 pl-2">$1.00 ANG = $1.00 AED</P>
+    <p class="text-2xl text-semibold pt-2 pl-2">${{ montoHome }} {{ divisaOrigen }} =</p>
+    <p class="text-4xl text-bold pt-2 pl-1">${{ montoDestinoHome }} {{ divisaDestino }} </p>
+    <p class="text-xl text-semibold pt-2 pl-2">$1.00 {{divisaOrigen}} = ${{montoBy1}} {{ divisaDestino }} </p>
+    <P class="text-xl text-semibold pt-2 pl-2">$1.00 {{ divisaDestino }} = ${{montoBy1Invert}} {{divisaOrigen}} </P>
   </div>
 </div>
 
-<app-graph></app-graph>
+@if (graphAlert) {
+<app-graph [graphLabel]="graphLabel" [graphLabelData]="graphLabelData"></app-graph>
+}
