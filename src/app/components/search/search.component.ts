@@ -33,6 +33,9 @@ export class SearchComponent {
   divisaDestino: any = [];
   homeResult: boolean = false;
 
+  //variable para la grafica
+  graphAlert: boolean = false;
+
   monedaAbreviatura = {
     "AED": " United Arab Emirates Dirham",
     "AFN": " Afghan Afghani",
@@ -248,6 +251,7 @@ export class SearchComponent {
       this.divisaMonto = formDivisas.value.monto;
       this.divisaOrigen = formDivisas.value.monedaOrigen;
       this.divisaDestino = formDivisas.value.monedaDestino;
+      this.graphAlert = false;
       this.homeResult = true;
     }
 

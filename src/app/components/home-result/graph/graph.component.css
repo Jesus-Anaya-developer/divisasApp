@@ -1,0 +1,5 @@
+.scrollChart {
+  width: 1400px;
+  height: 740px;
+  overflow-x: scroll;
+}

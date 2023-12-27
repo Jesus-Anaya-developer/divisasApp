@@ -21,6 +21,7 @@ export class HomeResultComponent {
   @Input() divisaOrigen: string = '';
   @Input() divisaDestino: string = '';
   @Input() ErrorMessage: string = '';
+  @Input() graphAlert: boolean = false;
 
   // variables para el consumo de la API
   monto: string = '';
@@ -38,7 +39,6 @@ export class HomeResultComponent {
 
   // variables para el grafico
   graphData: any = {};
-  graphAlert: boolean = false;
   graphLabel: any = [];
   graphLabelData: any = [];
 
@@ -105,7 +105,10 @@ export class HomeResultComponent {
     let dateResta = new Date();
     dateResta.setFullYear(dateResta.getFullYear() - 1);
 
+    console.log(this.origen, this.destino);
+
     this.getGraphData(this.origen, this.destino, dateResta.toISOString().split('T')[0], dateToday.toISOString().split('T')[0]);
+
   }
 
   getGraphData(divisaOrigen: string, divisaDestino: string, start_date: string, end_date: string) {
@@ -114,6 +117,8 @@ export class HomeResultComponent {
     const to = divisaDestino;
     const start = start_date;
     const end = end_date;
+
+    console.log(from, to)
 
     const url = `https://api.apilayer.com/exchangerates_data/timeseries?base=${from}&symbols=${to}&start_date=${start}&end_date=${end}`;
     const headers = this._exchangeDataService.headers;
