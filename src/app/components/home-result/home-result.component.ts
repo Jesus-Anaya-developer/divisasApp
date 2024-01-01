@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { GraphComponent } from "./graph/graph.component";
 import { SearchComponent } from "../search/search.component";
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 import { ExchangeDataService } from "../../services/exchange-data.service";
 
@@ -15,13 +16,12 @@ import { ExchangeDataService } from "../../services/exchange-data.service";
   templateUrl: './home-result.component.html',
   styleUrl: './home-result.component.css'
 })
-export class HomeResultComponent {
+export class HomeResultComponent implements OnInit, OnDestroy {
 
-  @Input() divisaMonto: string = ''
-  @Input() divisaOrigen: string = '';
-  @Input() divisaDestino: string = '';
   @Input() ErrorMessage: string = '';
-  @Input() graphAlert: boolean = false;
+  @Input() formData: any = {};
+
+  private subscription: Subscription | undefined;
 
   // variables para el consumo de la API
   monto: string = '';
@@ -41,30 +41,30 @@ export class HomeResultComponent {
   graphData: any = {};
   graphLabel: any = [];
   graphLabelData: any = [];
+  graphAlert: boolean = false;
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-
-    this.getDivisas(this.divisaMonto, this.divisaOrigen, this.divisaDestino);
+    console.log(this.formData);
+    this.getDivisas(this.formData);
   }
 
   constructor(private _exchangeDataService: ExchangeDataService,
-    private http: HttpClient) {
-  }
+    private http: HttpClient) { }
 
-  getDivisas(divisaMonto: string, divisaOrigen: string, divisaDestino: string) {
-
-    this.monto = divisaMonto;
-    this.origen = divisaOrigen.substring(0, 3);
-    this.destino = divisaDestino.substring(0, 3);
+  getDivisas(formData: any) {
+    console.log(formData);
+    this.monto = formData.monto;
+    this.origen = formData.monedaOrigen.substring(0, 3);
+    this.destino = formData.monedaDestino.substring(0, 3);
 
     const url = `https://api.apilayer.com/exchangerates_data/convert?to=${this.origen}&from=${this.destino}&amount=${this.monto}`;
     const urlBy1 = `https://api.apilayer.com/exchangerates_data/convert?to=${this.origen}&from=${this.destino}&amount=1`;
     const urlBy1Invert = `https://api.apilayer.com/exchangerates_data/convert?to=${this.destino}&from=${this.origen}&amount=1`;
     const headers = this._exchangeDataService.headers;
 
-    this.http.get(url, { headers }).subscribe({
+    this.subscription = this.http.get(url, { headers }).subscribe({
       next: result => {
         this.res = result;
         this.montoHome = this.res.query.amount;
@@ -82,6 +82,7 @@ export class HomeResultComponent {
       next: result => {
         this.res = result;
         this.montoBy1 = this.res.result;
+
       },
       error: error => {
         console.error('There was an error!', error);
@@ -105,20 +106,17 @@ export class HomeResultComponent {
     let dateResta = new Date();
     dateResta.setFullYear(dateResta.getFullYear() - 1);
 
-    console.log(this.origen, this.destino);
-
     this.getGraphData(this.origen, this.destino, dateResta.toISOString().split('T')[0], dateToday.toISOString().split('T')[0]);
 
   }
 
   getGraphData(divisaOrigen: string, divisaDestino: string, start_date: string, end_date: string) {
 
+    this.graphAlert = false;
     const from = divisaOrigen;
     const to = divisaDestino;
     const start = start_date;
     const end = end_date;
-
-    console.log(from, to)
 
     const url = `https://api.apilayer.com/exchangerates_data/timeseries?base=${from}&symbols=${to}&start_date=${start}&end_date=${end}`;
     const headers = this._exchangeDataService.headers;
@@ -127,6 +125,7 @@ export class HomeResultComponent {
       next: result => {
 
         this.graphData = result;
+
         const graphDataArray = Object.entries(this.graphData.rates);
 
         graphDataArray.map((item: any) => {
@@ -140,7 +139,13 @@ export class HomeResultComponent {
         console.error('There was an error!', error);
       }
     });
-
   }
 
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

@@ -33,9 +33,11 @@
   </div>
 </div>
 
-@if (homeResult == true) {
-<app-home-result [divisaMonto]="divisaMonto" [divisaOrigen]="divisaOrigen" [divisaDestino]="divisaDestino"
-  [ErrorMessage]="ErrorMessage" [graphAlert]="graphAlert"></app-home-result>
+@if (mostrarHijo) {
+<app-home-result [formData]="formData" [ErrorMessage]="ErrorMessage"></app-home-result>
+} @else {
+<div class="min-h-screen bg-primary">
+</div>
 }
 
 <app-footer></app-footer>

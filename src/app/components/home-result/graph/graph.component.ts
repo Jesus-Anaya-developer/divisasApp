@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Chart, ChartType } from 'chart.js/auto';
 
 @Component({
@@ -8,7 +8,7 @@ import { Chart, ChartType } from 'chart.js/auto';
   templateUrl: './graph.component.html',
   styleUrl: './graph.component.css'
 })
-export class GraphComponent {
+export class GraphComponent implements OnInit {
 
   @Input() graphLabel: any = {};
   @Input() graphLabelData: any = {};
@@ -18,17 +18,16 @@ export class GraphComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.getGraph();
+    this.getGraph(this.graphLabel, this.graphLabelData);
   }
 
-  getGraph() {
-
+  getGraph(graphLabel: any, graphLabelData: any) {
     // datos
     const data = {
-      labels: this.graphLabel,
+      labels: graphLabel,
       datasets: [{
         label: 'Precio',
-        data: this.graphLabelData,
+        data: graphLabelData,
         fill: false,
         borderColor: '',
         backgroundColor: '#223026',
@@ -41,7 +40,5 @@ export class GraphComponent {
       type: 'line' as ChartType, // tipo de la gráfica
       data: data // datos
     });
-
   }
-
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
@@ -19,22 +19,15 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule } from "@angula
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
-export class SearchComponent {
-
-  constructor() { }
+export class SearchComponent implements OnInit {
 
   //Variables para alertas
   ErrorMessage: string = "";
   AlertError: boolean = false;
 
   //variable para resultado de la divisa
-  divisaMonto: any = [];
-  divisaOrigen: any = [];
-  divisaDestino: any = [];
-  homeResult: boolean = false;
-
-  //variable para la grafica
-  graphAlert: boolean = false;
+  formData: any = {};
+  mostrarHijo = false;
 
   monedaAbreviatura = {
     "AED": " United Arab Emirates Dirham",
@@ -235,6 +228,10 @@ export class SearchComponent {
     }),
   })
 
+  ngOnInit(): void {
+
+  }
+
   calcularDivisas(formDivisas: FormGroup) {
 
     if (formDivisas.value.monto == '') {
@@ -246,15 +243,21 @@ export class SearchComponent {
     } else if (formDivisas.value.monedaDestino == '') {
       this.ErrorMessage = 'Error!!! Por favor seleccione una moneda de destino';
       this.AlertError = true;
-    } else {
+    } else if (formDivisas != null) {
+      this.formData = formDivisas.value;
+    };
+    console.log(this.formData);
+    this.clearForm();
+  }
 
-      this.divisaMonto = formDivisas.value.monto;
-      this.divisaOrigen = formDivisas.value.monedaOrigen;
-      this.divisaDestino = formDivisas.value.monedaDestino;
-      this.graphAlert = false;
-      this.homeResult = true;
-    }
+  clearForm() {
+    this.formDivisas.reset();
+    this.recargarHijo();
+  }
 
+  recargarHijo() {
+    this.mostrarHijo = false;
+    setTimeout(() => this.mostrarHijo = true, 0);
   }
 
 }
