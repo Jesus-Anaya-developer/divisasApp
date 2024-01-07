@@ -11,4 +11,8 @@
 
 @if (graphAlert) {
 <app-graph [graphLabel]="graphLabel" [graphLabelData]="graphLabelData"></app-graph>
+} @else {
+<div class="min-h-screen flex justify-center items-center h-screen bg-primary">
+  <img class="h-96 w-96" src="../../../assets/iconos/150.svg" alt="">
+</div>
 }

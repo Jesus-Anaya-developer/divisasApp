@@ -6,7 +6,7 @@
       <div class="flex flex-col place-items-center md:basis-2/6 md:p-4">
         <label for="monto" class="text-3xl font-semibold pt-5 pb-2">Importe</label>
         <input type="text" formControlName="monto" name="monto" placeholder="$5.00"
-          class="text-xl text-tertiary text-center rounded-md border-b-4 border-tertiary">
+          class="text-xl text-tertiary text-center rounded-full border-b-4 border-tertiary">
       </div>
       <div class="flex flex-col place-items-center md:basis-2/6 md:p-4">
         <label for="monedaOrigen" class="text-3xl font-semibold pt-5 pb-2">De:</label>
@@ -24,7 +24,7 @@
           <option *ngFor="let moneda of monedas">{{moneda}}</option>
         </select>
       </div>
-      <div class="flex flex-col place-items-center pt-5 md:basis-2/6 md:p-4">
+      <div class="flex flex-col place-items-start pt-5 md:basis-2/6 md:p-4 md:mt-14">
         <button type="submit"
           class="text-tertiary bg-blue hover:bg-green focus:ring-4 focus:ring-blue
       font-medium rounded-lg text-xl px-5 py-3 me-2 mb-2 focus:outline-none border-b-4 border-tertiary">Aceptar</button>
@@ -36,7 +36,8 @@
 @if (mostrarHijo) {
 <app-home-result [formData]="formData" [ErrorMessage]="ErrorMessage"></app-home-result>
 } @else {
-<div class="min-h-screen bg-primary">
+<div class="min-h-screen flex justify-center items-center h-screen bg-primary">
+  <img class="h-96 w-96" src="../../../assets/iconos/150.svg" alt="">
 </div>
 }
 
